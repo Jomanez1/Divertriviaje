@@ -451,6 +451,7 @@
     <div class="narrators-grid" id="narratorsGrid">
       <button class="narrator-btn selected" data-nar="0"><span class="nar-icon">🎩</span>Don Trivia</button>
       <button class="narrator-btn" data-nar="1"><span class="nar-icon">👸</span>La Reina</button>
+      <button class="narrator-btn" data-nar="2"><span class="nar-icon">🧝</span>El Duende</button>
     </div>
 
     <div class="tts-bar">
@@ -575,6 +576,9 @@ const NARRATORS = [
   { name:'La Reina',   icon:'👸', preferGender:'female',
     pitch:1.30, rate:0.80,
     names:['mónica','monica','paloma','lucia','lucía','female','mujer','woman','laura','maria','maría'] },
+  { name:'El Duende',  icon:'🧝', preferGender:'male',
+    pitch:1.85, rate:1.15,
+    names:['duende','elf','gnomo','goblin','troll','sprite'] },
 ];
 
 // Comentarios locales por narrador
@@ -595,6 +599,14 @@ const COMMENTS = [
     final:['¡El gran torneo real ha concluido! Un súbdito ha demostrado ser digno de la corona.','¡Proclamo al ganador de mi torneo! ¡Que la celebración real comience!'],
     empate:['¡Oh, cielos! ¡Un empate en mi torneo real! Procederemos con elegancia a la ronda de desempate.','¡Jamás en mi reino se había visto tal igualdad! Solo una pregunta más coronará al verdadero campeón.','¡Empate real! Mi mayordomo ha desmayado de la emoción. Habrá ronda de desempate.'],
   },
+  // 2 El Duende
+  {
+    ok:['¡Tachán! ¡Correcto! ¡Esto merece un baile! Bueno... mejor no, que la última vez rompí una seta.','¡Acertaste! ¡Acertaste! ¡Hasta mis orejas puntiagudas se han puesto coloradas de la emoción!','¡Bien! ¡Bien! ¡Bien! Sabía que no eras tan tonto como pareces. Bueno... casi.','¡Correcto! Los duendes del bosque te deben una reverencia. Aunque somos bastante vagos para las reverencias.','¡Eso es! ¡Lo sabías! ¡Dame un choca esos cinco! Espera, que tengo los dedos llenos de musgo.','¡Fantástico! Si siguieras así me quedaría sin trabajo. ¡Y yo lo necesito, tengo seis hijos duendecillos!','¡Sí, sí, sí! ¡Por las setas mágicas del bosque, lo has clavado!','¡Correcto! Me debes una. En duendes, eso son tres bellotas y media.','¡Anda ya! ¿Esto lo sabías tú? ¡Me has dejado con las orejas de punta!','¡Exacto! ¡Increíble! Soy el narrador más suertudo del bosque encantado.'],
+    ko:['¡Nooo! ¡Esa no era! Los duendes del bosque están llorando. Bueno, en realidad se están riendo de ti.','¡Ay, ay, ay! Eso ha dolido más que cuando me senté en un cactus. Y eso que los duendes no nos sentamos en cactus.','¡Fallaste! Y lo peor es que yo tampoco lo sabía, pero tú tenías que acertarlo.','¡Error! Tranquilo, los duendes también fallamos. El otro día confundí un hongo venenoso con uno bueno. Sobreviví... casi.','¡Eso no era ni de lejos! Hasta mi abuela duende, que lleva cien años encantada, lo sabía.','¡Incorrecto! Pero mira el lado positivo: ahora sabes qué NO responder la próxima vez.','¡Uy, uy, uy! Esa respuesta ha hecho que mi sombrero salga volando de la vergüenza.','¡Fallaste! Pero no te preocupes, en el bosque encantado siempre hay una segunda oportunidad. Y una tercera. Y una cuarta...','¡No, no, no! Hasta las ardillas del bosque sabían esa. Y las ardillas no saben leer.','¡Equivocado! Los elfos del norte me acaban de mandar una carta de condolencias por tu respuesta.'],
+    ronda:['¡Ronda terminada! Los duendes del marcador están haciendo piruetas. Algunos de alegría y otros de vergüenza.','¡Se acabó esta ronda! ¡Ya va siendo hora! Tenía las piernas duendiles agarrotadas de tanto saltar.','¡Fin de ronda! El bosque encantado ha tomado nota de los resultados. Y los ha grabado en un árbol para la eternidad.','¡Ronda completada! Hora de revisar puntos. El que va último invita a bellota frita. Regla duendil número siete.','¡Se acabó! Los duendes contadores ya tienen los resultados. Y tienen cara de que algunos son sorprendentes.','¡Ronda lista! Esto está más emocionante que la última fiesta del solsticio en el bosque. ¡Y esa fue épica!'],
+    final:['¡Se acabó el juego! ¡Ha sido la aventura más emocionante desde que perseguí a un dragón por error pensando que era un gato grande!','¡Fin! ¡Ha terminado! ¡Los duendes del bosque ya están preparando la celebración para el ganador! ¡Y las condolencias para el último!','¡Juego terminado! Tengo que irme, que el champiñón del que vivo cierra a las nueve. ¡Ha sido un placer!','¡Eso es todo! ¡Felicidades al ganador y ánimo al último! En el bosque encantado todos tenemos un don... algunos tardan más en encontrarlo.'],
+    empate:['¡Empate! ¡Empate duendil! ¡Esto no lo había visto ni en doscientos años de magia encantada! ¡A desempatar se ha dicho!','¡Anda! ¡Están igualados! ¡Esto es más raro que encontrar un duende con los zapatos limpios! ¡Una pregunta más!','¡Empate técnico confirmado por los duendes contadores! Solo una pregunta suprema del bosque resolverá este misterio.','¡No puede ser! ¡Puntuación igual! ¡Los duendes están discutiendo entre ellos! ¡Habrá que desempatar, claro que sí!','¡Igualados! ¡Impresionante! Hasta el árbol más viejo del bosque se ha emocionado. ¡A por la pregunta decisiva!'],
+  }
 ];
 
 function pick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
@@ -1057,6 +1069,10 @@ function transformTextForNarrator(text, narIdx){
         .replace(/¡/g, '')
         .replace(/!/g, ',')
         .replace(/\.\s*/g, '. ');
+    case 2: // El Duende — rápido, agudo, pausas cómicas solo en puntos y comas
+      return text
+        .replace(/\.\s*/g, '... ')
+        .replace(/,\s*/g, ', ja, ');
     default:
       return text;
   }
@@ -1878,16 +1894,16 @@ function stopConfetti(){ document.getElementById('confetti').innerHTML=''; }
     wtCurrent = 0;
     renderWtStep();
     document.getElementById('wt-overlay').classList.add('active');
-    if(manual) localStorage.removeItem(WT_KEY); // si es manual, no marcamos como visto
+    // manual=true: abierto por el botón ❓, no cambiamos el estado de "visto"
   }
 
-  // Mostrar automáticamente la primera vez
-  document.addEventListener('DOMContentLoaded', function(){
+  // Mostrar automáticamente la primera vez — solo cuando se llega a la pantalla de configuración
+  // (no durante la splash, para no bloquear el botón Comenzar)
+  function maybeShowWalkthrough(){
     if(!localStorage.getItem(WT_KEY)){
-      // Pequeño delay para que la splash termine primero
-      setTimeout(function(){ startWalkthrough(false); }, 700);
+      setTimeout(function(){ startWalkthrough(false); }, 400);
     }
-  });
+  }
 
   if (typeof navigator.serviceWorker !== 'undefined') {
     navigator.serviceWorker.register('sw.js');
@@ -1897,7 +1913,10 @@ function stopConfetti(){ document.getElementById('confetti').innerHTML=''; }
     fallbackTTSOnGesture('splash-comenzar');
     var splash = document.getElementById('screen-splash');
     splash.classList.add('hide');
-    setTimeout(function() { splash.style.display = 'none'; }, 650);
+    setTimeout(function() {
+      splash.style.display = 'none';
+      maybeShowWalkthrough();
+    }, 650);
   }
 
   document.addEventListener('DOMContentLoaded', function() {
