@@ -1818,16 +1818,12 @@ function stopConfetti(){ document.getElementById('confetti').innerHTML=''; }
   // Ejemplo: https://play.google.com/store/apps/details?id=com.tuempresa.divertriviaje
   // ⚠️ SUSTITUYE TU_PACKAGE_NAME por el package name de tu app en Android Studio
   // Ejemplo: com.jomanez.divertriviaje
-  const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=jomanez1.github.io.Divertriviaje.twa';
+  // ⚠️ Sustituye la URL por la de tu ficha en Google Play cuando esté publicada
+  const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=jomanez1.github.io.Divertriviaje&pcampaignid=web_share';
 
   function rateApp(){
-    // Si estamos en la WebView nativa, intentar abrir la Play Store directamente
-    if(window.Android && typeof window.Android.openUrl === 'function'){
-      window.Android.openUrl(PLAY_STORE_URL);
-    } else {
-      // En navegador normal, abrir en pestaña nueva
-      window.open(PLAY_STORE_URL, '_blank');
-    }
+    // PWA/TWA: abrir directamente la ficha de Google Play
+    window.open(PLAY_STORE_URL, '_blank');
   }
 
   // ====== WALKTHROUGH ======
